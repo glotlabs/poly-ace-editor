@@ -1,0 +1,12 @@
+{
+  "name": "poly-ace-editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/poly-ace-editor.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
