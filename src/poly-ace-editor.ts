@@ -20,6 +20,14 @@ class AceEditorElement extends HTMLElement {
     shadow.appendChild(this.editorElem);
 
     // @ts-ignore
+    if (!window.ace) {
+      console.error(
+        "poly-ace-editor requires that the ace.js library is loaded first"
+      );
+      throw new Error("ace.js library is not loaded");
+    }
+
+    // @ts-ignore
     this.editor = ace.edit(this.editorElem);
     this.editor.renderer.attachToShadowRoot();
 
