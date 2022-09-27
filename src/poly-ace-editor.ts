@@ -94,7 +94,7 @@ class AceEditorElement extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["height", "keyboard-handler", "theme"];
+    return ["height", "keyboard-handler", "theme", "mode"];
   }
 
   public attributeChangedCallback(
@@ -113,6 +113,14 @@ class AceEditorElement extends HTMLElement {
 
       case "theme":
         this.editor.setTheme(newValue);
+        break;
+
+      case "mode":
+        // @ts-ignore
+        const mode = ace.require("ace/mode/html");
+        if (mode) {
+          this.editor.session.setMode(new mode.Mode());
+        }
         break;
     }
   }
