@@ -94,7 +94,14 @@ class AceEditorElement extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["height", "keyboard-handler", "theme", "mode"];
+    return [
+      "height",
+      "keyboard-handler",
+      "theme",
+      "mode",
+      "show-print-margin",
+      "show-gutter",
+    ];
   }
 
   public attributeChangedCallback(
@@ -121,6 +128,14 @@ class AceEditorElement extends HTMLElement {
         if (mode) {
           this.editor.session.setMode(new mode.Mode());
         }
+        break;
+
+      case "show-print-margin":
+        this.editor.setShowPrintMargin(newValue === "true");
+        break;
+
+      case "show-gutter":
+        this.editor.renderer.setShowGutter(newValue === "true");
         break;
     }
   }
