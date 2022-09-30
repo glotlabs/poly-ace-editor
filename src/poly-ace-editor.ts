@@ -124,9 +124,9 @@ class AceEditorElement extends HTMLElement {
 
       case "mode":
         // @ts-ignore
-        const mode = ace.require("ace/mode/html");
+        const mode = ace.require(newValue);
         if (mode) {
-          this.editor.session.setMode(new mode.Mode());
+          this.editor.getSession().setMode(new mode.Mode());
         }
         break;
 
