@@ -86,15 +86,12 @@ class AceEditorElement extends HTMLElement {
 
   private createEditorElement(): HTMLDivElement {
     const editorElem = document.createElement("div");
-
-    // Copy classes from the host element
-    editorElem.classList.value = this.classList.value;
-
     return editorElem;
   }
 
   static get observedAttributes() {
     return [
+      "editor-class",
       "height",
       "keyboard-handler",
       "theme",
@@ -110,6 +107,10 @@ class AceEditorElement extends HTMLElement {
     newValue: string
   ) {
     switch (name) {
+      case "editor-class":
+        this.editorElem.classList.value = newValue;
+        break;
+
       case "height":
         this.editorElem.style.height = newValue;
         break;
