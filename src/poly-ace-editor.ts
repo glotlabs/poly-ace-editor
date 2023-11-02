@@ -1,7 +1,7 @@
 class AceEditorElement extends HTMLElement {
   private editor: any;
   private contentObserver: MutationObserver;
-  private focusListenerController: AbortController;
+  private abortController: AbortController;
   private editorElem: HTMLElement;
   public value: string = "";
 
@@ -51,19 +51,20 @@ class AceEditorElement extends HTMLElement {
       this.setContent(this.textContent || "");
     });
 
-    this.focusListenerController = new AbortController();
+    this.abortController = new AbortController();
   }
 
   public connectedCallback() {
     if (this.isConnected) {
       this.startContentObserver();
-      this.startListenForFocusEvents();
+      this.startResizeListener();
+      this.startFocusListener();
     }
   }
 
   public disconnectedCallback() {
-    this.stopContentObserver();
-    this.stopListenForFocusEvents();
+    this.contentObserver.disconnect();
+    this.abortController.abort();
   }
 
   private setContent(content: string) {
@@ -153,25 +154,32 @@ class AceEditorElement extends HTMLElement {
     });
   }
 
-  private stopContentObserver() {
-    this.contentObserver.disconnect();
+  private startResizeListener() {
+    window.addEventListener(
+      "resize",
+      (_event) => {
+        window.requestAnimationFrame(() => {
+          this.editor.resize();
+        });
+      },
+      {
+        signal: this.abortController.signal,
+        passive: true,
+      }
+    );
   }
 
-  private startListenForFocusEvents() {
+  private startFocusListener() {
     this.addEventListener(
       "focus",
       (_event) => {
         this.editor.focus();
       },
       {
-        signal: this.focusListenerController.signal,
+        signal: this.abortController.signal,
         passive: true,
       }
     );
-  }
-
-  private stopListenForFocusEvents() {
-    this.focusListenerController.abort();
   }
 }
 
