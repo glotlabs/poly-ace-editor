@@ -5,6 +5,10 @@ class AceEditorElement extends HTMLElement {
   private editorElem: HTMLElement;
   public value: string = "";
 
+  static register() {
+    customElements.define("poly-ace-editor", AceEditorElement);
+  }
+
   constructor() {
     super();
 
@@ -170,7 +174,5 @@ class AceEditorElement extends HTMLElement {
     this.focusListenerController.abort();
   }
 }
-
-customElements.define("poly-ace-editor", AceEditorElement);
 
 export { AceEditorElement };
