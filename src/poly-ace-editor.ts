@@ -129,11 +129,15 @@ class AceEditorElement extends HTMLElement {
         break;
 
       case "mode":
-        // @ts-ignore
-        const mode = ace.require(newValue);
-        if (mode) {
-          this.editor.getSession().setMode(new mode.Mode());
-        }
+        this.editor.getSession().setMode(newValue);
+        break;
+
+      case "use-soft-tabs":
+        this.editor.setOption("useSoftTabs", newValue === "true");
+        break;
+
+      case "tab-size":
+        this.editor.setOption("tabSize", parseInt(newValue) || 0);
         break;
 
       case "show-print-margin":
